@@ -1,12 +1,4 @@
-// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-//     console.log(message);
-//     if (message.stylesheet) {
-//         const stylesheet = message.sylesheet;
-//         console.log("Received stylesheet:", stylesheet);
-//     }
-// });
-
-// document.addEventListener('DOMContentLoaded', function () {
+// document.addEventListener('DOMContentLoaded', function () { // can replace with another event or smt, this runs when popup is opened
 //     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 //         var currentTab = tabs[0];
 //         var tabId = currentTab.id;
@@ -14,7 +6,7 @@
 //         chrome.scripting.executeScript(
 //             {
 //                 target: { tabId: tabId },
-//                 function: getStyles,
+//                 function: someFunction,
 //             },
 //             function (result) {
 //                 console.log("Result:", result);
@@ -28,40 +20,6 @@
 //                 }
 //             }
 //         );
-//     });
-// });
-  
-// function getStyles() {
-//     var styles = [];
-  
-//     var sheets = document.styleSheets;
-//     for (var i = 0; i < sheets.length; i++) {
-//       try {
-//         var rules = sheets[i].cssRules;
-//         for (var j = 0; j < rules.length; j++) {
-//           var rule = rules[j];
-//           if (rule instanceof CSSStyleRule) {
-//             styles.push(rule.cssText);
-//           }
-//         }
-//       } catch (error) {
-//         // Handle any errors due to cross-origin stylesheets
-//         console.error('Error fetching CSS rules from stylesheet:', error);
-//       }
-//     }
-  
-//     return styles;
-// }  
-
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//     var currentTab = tabs[0];
-//     var tabId = currentTab.id;
-  
-//     const css = 'html { filter: invert(1) hue-rotate(180deg); } img, picture, video { filter: invert(1) hue-rotate(180deg); }';
-
-//     chrome.scripting.insertCSS({
-//         target: { tabId },
-//         css: css
 //     });
 // });
 
