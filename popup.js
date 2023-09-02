@@ -53,59 +53,108 @@
 //     return styles;
 // }  
 
-chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    var currentTab = tabs[0];
-    var tabId = currentTab.id;
+// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//     var currentTab = tabs[0];
+//     var tabId = currentTab.id;
   
-    const css = 'html { filter: invert(1) hue-rotate(180deg); }';
+//     const css = 'html { filter: invert(1) hue-rotate(180deg); } img, picture, video { filter: invert(1) hue-rotate(180deg); }';
 
-    chrome.scripting.insertCSS({
-        target: { tabId },
-        css: css
-    });
-});
+//     chrome.scripting.insertCSS({
+//         target: { tabId },
+//         css: css
+//     });
+// });
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+document.addEventListener('DOMContentLoaded', async function () {
+    chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
         var currentTab = tabs[0];
         var tabId = currentTab.id;
-
-        chrome.scripting.executeScript(
-            {
+        const states = await getStates();
+        const result = await getStyles(states);
+        console.log("Result:", result);
+        if (!chrome.runtime.lastError) {
+            await chrome.scripting.insertCSS({
                 target: { tabId },
-                function: stylePage,
-                args: [ isToggled() ]
-            },
-            function (result) {
-                console.log("Result:", result);
-                if (!chrome.runtime.lastError) {
-                    console.log(result);
-                } else {
-                    console.error('Error executing script:', chrome.runtime.lastError);
-                }
-            }
-        );
+                css: result
+            });
+        } else {
+            console.error('Error executing script:', chrome.runtime.lastError);
+        }
     });
 });
 
-function isToggled() {
-    return true; // for now
+async function getStates() {
+    let states = {
+        "dark": 0.0,
+        "night": 1.0,
+        "grayscale": 1.0, // 0 to 1
+        "contrast": 1.0, // 0 to 2 (default is 1)
+        "protanopia": 0.0, // red-green or red = gray
+        "deuteranopia": 0.0, // red-green
+        "tritanopia": 0.0 // blue = gray
+    }
+    return states; // for now
 }
 
-function stylePage(toggle) {
-    console.log(toggle);
-    if (toggle) {
-        document.querySelector("html").style.filter = "invert(1) hue-rotate(180deg);";
-        let media = document.querySelectorAll("img, picture, video");
-        console.log(media);
-        media.forEach((mediaItem) => { 
-            console.log(mediaItem);
-            mediaItem.style.filter = "invert(1) hue-rotate(180deg) !important;"; 
-        });
+async function getStyles(states) {
+    let css = []
+    
+    if (states.protanopia) {
+        css.concat([
+            ""
+        ]);
+    } else {
+        css.concat([
+            ""
+        ]);
     }
-    else {
-        document.querySelector("html").style.filter = "invert(0) hue-rotate(0deg);";
+
+    if (states.deuteranopia) {
+        css.concat([
+            ""
+        ]);
+    } else {
+        css.concat([
+            ""
+        ]);
     }
-    return true;
+
+    if (states.tritanopia) {
+        css.concat([
+            ""
+        ]);
+    } else {
+        css.concat([
+            ""
+        ]);
+    }
+
+    css = [
+        `html { filter: invert(${states.dark}) hue-rotate(${180*states.dark}) grayscale(${100*states.grayscale}%) contrast(${100*states.contrast}%) }`,
+        `img, picture, video { filter: invert(${states.dark}) hue-rotate(${180*states.dark}) grayscale(0%) contrast(0%) }`,
+    ];
+
+    if (states.night) css.push("html::before { background: #ffffab; mix-blend-mode: multiply; content: ' '; position: fixed; top: 0; left: 0; width: 100%; height: 999vh; pointer-events: none; z-index: 999; }");
+    else css.push("html::before { display: none; }");
+
+    let res = css.join(' ')
+    return res;
 }
+
+// function stylePage(toggle) {
+//     console.log(toggle);
+//     if (toggle) {
+//         document.querySelector("html").style.filter = "invert(1) hue-rotate(180deg);";
+//         let media = document.querySelectorAll("img, picture, video");
+//         console.log(media);
+//         media.forEach((mediaItem) => { 
+//             console.log(mediaItem);
+//             mediaItem.style.filter = "invert(1) hue-rotate(180deg) !important;"; 
+//         });
+//     }
+//     else {
+//         document.querySelector("html").style.filter = "invert(0) hue-rotate(0deg);";
+//     }
+//     return true;
+// }
