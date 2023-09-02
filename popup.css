@@ -1,0 +1,130 @@
+h2 {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 20px;
+    margin: 0px;
+    padding: 10px;
+/*    display: inline-block;*/
+}
+
+.buttonContainer {
+    background-color: #D4D4D4;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+/*    width: 350px;*/
+    margin-bottom: 10px;
+}
+
+.dark-mode-button {
+/*    display: inline-block;*/
+/*    margin-right: 0px;*/
+    
+    position: absolute;
+    right: 25px;
+    background: transparent;
+    border: none;
+    height: 45px;
+	width: 40px;
+	display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+/*
+.top-dark-mode-button {
+	position: static;
+	margin: auto;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    z-index: 1000;
+    -webkit-transition: .3s ease-in;
+    -o-transition: .3s ease-in;
+    transition: .3s ease-in;
+}
+*/
+
+.top-dark-mode-button .dark-toggle {
+    background: rgb(230, 230, 230);
+    border-color: rgb(230, 230, 230);
+    width: 35px;
+}
+
+.dark-toggle {
+    margin: 0;
+    width: 45px !important;
+    height: 25px;
+    z-index: 20;
+    border-radius: 50px;
+    background: transparent;
+    border: 3px solid #fff;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-transition: .3s ease;
+    -o-transition: .3s ease;
+    transition: .3s ease;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    z-index: 1000;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    align-items: center;
+/*
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+*/
+}
+
+body.dark-mode .dark-toggle {
+  background: #FFC038;
+  border: none;
+	box-shadow: 0px 0px 58px 12px #FFC038, 0px 0px 25px 2px #FFC038;
+	-webkit-transition: 1.5s ease;
+    -o-transition: 1.5s ease;
+    transition: 1.5s ease;
+}
+
+.dark-toggle span {
+    height: 26px;
+    width: 26px;
+    right: 16px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    -webkit-transition: .4s ease;
+    -o-transition: .4s ease;
+    transition: .4s ease;
+}
+
+body.dark-mode .dark-toggle span {
+    left: 19px;
+    -webkit-transition: .4s ease;
+    -o-transition: .4s ease;
+    transition: .4s ease;
+}
+
+.top-dark-mode-button .dark-toggle {
+    background: rgb(230, 230, 230);
+    border-color: rgb(230, 230, 230);
+    width: 35px;
+}
