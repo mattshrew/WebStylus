@@ -72,7 +72,7 @@ h2 {
     align-items: center;
 }
 
-.toggle .darkMode-toggle, .toggle .nightMode-toggle, .toggle .high-contrast-toggle {
+.toggle .darkMode-toggle, .toggle .nightMode-toggle, .toggle .high-contrast-toggle, .toggle .alt-text-toggle, .toggle .display-alt-toggle {
     background: rgb(230, 230, 230);
     border-color: rgb(230, 230, 230);
     width: 35px;
@@ -81,7 +81,7 @@ h2 {
     -o-transition: .3s ease;
 }
 
-.darkMode-toggle, .nightMode-toggle, .high-contrast-toggle {
+.darkMode-toggle, .nightMode-toggle, .high-contrast-toggle, .alt-text-toggle, .display-alt-toggle {
     margin: 0;
     width: 45px !important;
     height: 25px;
@@ -116,7 +116,7 @@ h2 {
 */
 }
 
-.darkMode-toggle span, .nightMode-toggle span, .high-contrast-toggle span {
+.darkMode-toggle span, .nightMode-toggle span, .high-contrast-toggle span, .alt-text-toggle span, .display-alt-toggle span {
     height: 26px;
     width: 26px;
     right: 17px;
@@ -128,11 +128,11 @@ h2 {
     transition: .4s ease !important; */
 }
 
-.darkMode-toggle span:hover, .nightMode-toggle span:hover, .high-contrast-toggle span:hover {
+.darkMode-toggle span:hover, .nightMode-toggle span:hover, .high-contrast-toggle span:hover, .alt-text-toggle span:hover, .display-alt-toggle span:hover {
     background: #F7F7F7
 }
 
-body.darkMode .darkMode-toggle span, body.nightMode .nightMode-toggle span, body.high-contrast .high-contrast-toggle span {
+body.darkMode .darkMode-toggle span, body.nightMode .nightMode-toggle span, body.high-contrast .high-contrast-toggle span, body.ai-alt-text .alt-text-toggle span, body.display-alt .display-alt-toggle span {
     /* transition: 1s ease; */
     left: 17px;
 }
