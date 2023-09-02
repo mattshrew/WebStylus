@@ -142,19 +142,86 @@ async function getStyles(states) {
     return res;
 }
 
-// function stylePage(toggle) {
-//     console.log(toggle);
-//     if (toggle) {
-//         document.querySelector("html").style.filter = "invert(1) hue-rotate(180deg);";
-//         let media = document.querySelectorAll("img, picture, video");
-//         console.log(media);
-//         media.forEach((mediaItem) => { 
-//             console.log(mediaItem);
-//             mediaItem.style.filter = "invert(1) hue-rotate(180deg) !important;"; 
-//         });
-//     }
-//     else {
-//         document.querySelector("html").style.filter = "invert(0) hue-rotate(0deg);";
-//     }
-//     return true;
-// }
+
+
+
+// JS For Frontend
+
+let darkMode = localStorage.getItem("darkMode");
+let nightMode = localStorage.getItem("nightMode");
+let highContrast = localStorage.getItem("highContrast");
+
+const darkModeToggle = document.querySelector('.dark-mode-button');
+const nightModeToggle = document.querySelector('.night-mode-button');
+const hightContrastToggle = document.querySelector('.high-contrast-button');
+const body = document.querySelector('body');
+
+ // Enable Dark Mode
+const enableDarkMode = () => {
+    body.classList.add("dark-mode");
+    localStorage.setItem("darkMode", "enabled")
+ }
+ // Disable Dark Mode
+ const disableDarkMode = () => {
+    body.classList.remove("dark-mode");
+    localStorage.setItem("darkMode", null)
+}
+
+// Enable Night Mode
+const enableNightMode = () => {
+    body.classList.add("night-mode");
+    localStorage.setItem("nightMode", "enabled")
+ }
+ // Disable Night Mode
+ const disableNightMode = () => {
+    body.classList.remove("night-mode");
+    localStorage.setItem("nightMode", null)
+}
+
+// Enable High Contrast
+const enableHighContrast = () => {
+    body.classList.add("high-contrast");
+    localStorage.setItem("highContrast", "enabled")
+ }
+ // Disable High Contrast
+ const disableHighContrast = () => {
+    body.classList.remove("high-contrast");
+    localStorage.setItem("highContrast", null)
+}
+
+// Check previous settings
+if (darkMode == "enabled") {
+    enableDarkMode();
+}
+if (nightMode == "enabled") {
+    enableNightMode();
+}
+if (highContrast == "enabled") {
+    enableHighContrast();
+}
+
+// Add click listeners
+darkModeToggle.addEventListener('click', () => {
+    darkMode = localStorage.getItem("darkMode");
+    if (darkMode !== "enabled") {
+        enableDarkMode();
+    } else {
+        disableDarkMode();
+    }
+})
+nightModeToggle.addEventListener('click', () => {
+    nightMode = localStorage.getItem("nightMode");
+    if (nightMode !== "enabled") {
+        enableNightMode();
+    } else {
+        disableNightMode();
+    }
+})
+hightContrastToggle.addEventListener('click', () => {
+    highContrast = localStorage.getItem("highContrast");
+    if (highContrast !== "enabled") {
+        enableHighContrast();
+    } else {
+        disableHighContrast();
+    }
+})

@@ -1,3 +1,18 @@
+body {
+    min-width: 300px;
+}
+
+.logo {
+    width: 100px;
+}
+
+#title {
+    display: inline-block;
+    margin: 0px;
+    position: absolute;
+    top: 5%;
+}
+
 h2 {
     font-family: 'Noto Sans', sans-serif;
     font-size: 20px;
@@ -12,15 +27,15 @@ h2 {
     display: flex;
     align-items: center;
 /*    width: 350px;*/
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
-.dark-mode-button {
+.toggle{
 /*    display: inline-block;*/
 /*    margin-right: 0px;*/
     
     position: absolute;
-    right: 25px;
+    right: 35px;
     background: transparent;
     border: none;
     height: 45px;
@@ -40,27 +55,16 @@ h2 {
     align-items: center;
 }
 
-/*
-.top-dark-mode-button {
-	position: static;
-	margin: auto;
-    -webkit-transform: rotate(-90deg);
-    -ms-transform: rotate(-90deg);
-    transform: rotate(-90deg);
-    z-index: 1000;
-    -webkit-transition: .3s ease-in;
-    -o-transition: .3s ease-in;
-    transition: .3s ease-in;
-}
-*/
-
-.top-dark-mode-button .dark-toggle {
+.toggle .dark-mode-toggle, .toggle .night-mode-toggle, .toggle .high-contrast-toggle {
     background: rgb(230, 230, 230);
     border-color: rgb(230, 230, 230);
     width: 35px;
+    transition: 1s ease;
+    -webkit-transition: .3s ease;
+    -o-transition: .3s ease;
 }
 
-.dark-toggle {
+.dark-mode-toggle, .night-mode-toggle, .high-contrast-toggle {
     margin: 0;
     width: 45px !important;
     height: 25px;
@@ -74,9 +78,9 @@ h2 {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-transition: .3s ease;
+    /* -webkit-transition: .3s ease;
     -o-transition: .3s ease;
-    transition: .3s ease;
+    transition: .3s ease; */
     display: flex;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -95,36 +99,82 @@ h2 {
 */
 }
 
-body.dark-mode .dark-toggle {
-  background: #FFC038;
-  border: none;
-	box-shadow: 0px 0px 58px 12px #FFC038, 0px 0px 25px 2px #FFC038;
-	-webkit-transition: 1.5s ease;
-    -o-transition: 1.5s ease;
-    transition: 1.5s ease;
-}
-
-.dark-toggle span {
+.dark-mode-toggle span, .night-mode-toggle span, .high-contrast-toggle span {
     height: 26px;
     width: 26px;
-    right: 16px;
+    right: 17px;
     border-radius: 50%;
     background: #fff;
     position: absolute;
-    -webkit-transition: .4s ease;
-    -o-transition: .4s ease;
-    transition: .4s ease;
+    /* -webkit-transition: .4s ease !important;
+    -o-transition: .4s ease !important;
+    transition: .4s ease !important; */
 }
 
-body.dark-mode .dark-toggle span {
-    left: 19px;
-    -webkit-transition: .4s ease;
-    -o-transition: .4s ease;
-    transition: .4s ease;
+.dark-mode-toggle span:hover, .night-mode-toggle span:hover, .high-contrast-toggle span:hover {
+    background: #F7F7F7
 }
 
-.top-dark-mode-button .dark-toggle {
-    background: rgb(230, 230, 230);
-    border-color: rgb(230, 230, 230);
-    width: 35px;
+body.dark-mode .dark-mode-toggle span, body.night-mode .night-mode-toggle span, body.high-contrast .high-contrast-toggle span {
+    /* transition: 1s ease; */
+    left: 17px;
+}
+
+/* .DTspan {
+    -webkit-transition: .3s ease;
+    -o-transition: .3s ease;
+    transition: 0.3s ease;
+} */
+
+
+/* Slider Styles uwu :3 */
+
+.slidecontainer {
+    width: 100%; /* Width of the outside container */
+    padding-right: 15px;
+    padding-left: 35px;
+  }
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    background: #E6E6E6;
+    height: 6px;
+    border-radius: 3px;
+}
+  
+input[type="range"]::-moz-range-track {
+    background: #E6E6E6;
+    height: 6px;
+    border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-top: -7px;
+}
+
+input[type="range"]::-moz-range-thumb {
+    border: none;
+    height: 20px;
+    width: 20px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    margin-top: -7px;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    background-color: #F7F7F7
 }
