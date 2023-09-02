@@ -6,6 +6,7 @@
     "permissions": ["activeTab", "tabs", "scripting"],
     "action": {
         "default_title": "WebStylus",
-        "default_popup": "popup.html"
+        "default_popup": "popup.html",
+        "default_icon": "logo.png"
     }
 }

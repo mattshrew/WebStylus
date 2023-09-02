@@ -65,8 +65,13 @@
 //     });
 // });
 
+const modes = ["darkMode", "nightMode"];
 
 document.addEventListener('DOMContentLoaded', async function () {
+    await setStyles();
+});
+
+async function setStyles() {
     chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
         var currentTab = tabs[0];
         var tabId = currentTab.id;
@@ -82,13 +87,14 @@ document.addEventListener('DOMContentLoaded', async function () {
             console.error('Error executing script:', chrome.runtime.lastError);
         }
     });
-});
+}
 
 async function getStates() {
+    console.log(localStorage)
     let states = {
-        "dark": 0.0,
-        "night": 1.0,
-        "grayscale": 1.0, // 0 to 1
+        "dark": (localStorage.getItem("darkMode") == "null") ? 0.0 : 1.0,
+        "night": (localStorage.getItem("nightMode") == "null") ? 0.0 : 1.0,
+        "grayscale": 0.0, // 0 to 1
         "contrast": 1.0, // 0 to 2 (default is 1)
         "protanopia": 0.0, // red-green or red = gray
         "deuteranopia": 0.0, // red-green
@@ -98,7 +104,7 @@ async function getStates() {
 }
 
 async function getStyles(states) {
-    let css = []
+    let css = [];
     
     if (states.protanopia) {
         css.concat([
@@ -131,11 +137,11 @@ async function getStyles(states) {
     }
 
     css = [
-        `html { filter: invert(${states.dark}) hue-rotate(${180*states.dark}) grayscale(${100*states.grayscale}%) contrast(${100*states.contrast}%) }`,
-        `img, picture, video { filter: invert(${states.dark}) hue-rotate(${180*states.dark}) grayscale(0%) contrast(0%) }`,
+        `html { filter: invert(${states.dark}) hue-rotate(${180*states.dark}deg) grayscale(${100*states.grayscale}%) contrast(${100*states.contrast}%) !important; }`,
+        `img, picture, video { filter: invert(${states.dark}) hue-rotate(${180*states.dark}deg) grayscale(0%) contrast(100%) !important; }`,
     ];
 
-    if (states.night) css.push("html::before { background: #ffffab; mix-blend-mode: multiply; content: ' '; position: fixed; top: 0; left: 0; width: 100%; height: 999vh; pointer-events: none; z-index: 999; }");
+    if (states.night) css.push("html::before { display: block; background: #ffffab; mix-blend-mode: multiply; content: ' '; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 999; }");
     else css.push("html::before { display: none; }");
 
     let res = css.join(' ')
@@ -151,77 +157,27 @@ let darkMode = localStorage.getItem("darkMode");
 let nightMode = localStorage.getItem("nightMode");
 let highContrast = localStorage.getItem("highContrast");
 
-const darkModeToggle = document.querySelector('.dark-mode-button');
-const nightModeToggle = document.querySelector('.night-mode-button');
+const darkModeToggle = document.querySelector('.darkMode-button');
+const nightModeToggle = document.querySelector('.nightMode-button');
 const hightContrastToggle = document.querySelector('.high-contrast-button');
 const body = document.querySelector('body');
 
- // Enable Dark Mode
-const enableDarkMode = () => {
-    body.classList.add("dark-mode");
-    localStorage.setItem("darkMode", "enabled")
- }
- // Disable Dark Mode
- const disableDarkMode = () => {
-    body.classList.remove("dark-mode");
-    localStorage.setItem("darkMode", null)
+async function toggleMode(mode, bool) {
+    if (bool) body.classList.add(mode);
+    else body.classList.remove(mode);
+    localStorage.setItem(mode, (bool) ? "enabled" : "null");
 }
 
-// Enable Night Mode
-const enableNightMode = () => {
-    body.classList.add("night-mode");
-    localStorage.setItem("nightMode", "enabled")
- }
- // Disable Night Mode
- const disableNightMode = () => {
-    body.classList.remove("night-mode");
-    localStorage.setItem("nightMode", null)
-}
-
-// Enable High Contrast
-const enableHighContrast = () => {
-    body.classList.add("high-contrast");
-    localStorage.setItem("highContrast", "enabled")
- }
- // Disable High Contrast
- const disableHighContrast = () => {
-    body.classList.remove("high-contrast");
-    localStorage.setItem("highContrast", null)
-}
-
-// Check previous settings
-if (darkMode == "enabled") {
-    enableDarkMode();
-}
-if (nightMode == "enabled") {
-    enableNightMode();
-}
-if (highContrast == "enabled") {
-    enableHighContrast();
+for (const mode of modes) {
+    if (localStorage.getItem(mode) != "null") {
+        toggleMode(mode, true);
+    }
 }
 
 // Add click listeners
-darkModeToggle.addEventListener('click', () => {
-    darkMode = localStorage.getItem("darkMode");
-    if (darkMode !== "enabled") {
-        enableDarkMode();
-    } else {
-        disableDarkMode();
-    }
-})
-nightModeToggle.addEventListener('click', () => {
-    nightMode = localStorage.getItem("nightMode");
-    if (nightMode !== "enabled") {
-        enableNightMode();
-    } else {
-        disableNightMode();
-    }
-})
-hightContrastToggle.addEventListener('click', () => {
-    highContrast = localStorage.getItem("highContrast");
-    if (highContrast !== "enabled") {
-        enableHighContrast();
-    } else {
-        disableHighContrast();
-    }
-})
+document.querySelectorAll(".toggle").forEach((toggle, i) => {
+    toggle.addEventListener('click', async () => {
+        await toggleMode(modes[i], !body.classList.contains(modes[i]));
+        await setStyles();
+    });
+});

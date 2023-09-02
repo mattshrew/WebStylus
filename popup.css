@@ -1,24 +1,34 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    min-width: 300px;
+    width: 300px;
+    padding: 0 10px 10px;
+}
+
+#header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 10px 10px 0;
 }
 
 .logo {
-    width: 100px;
+    width: 80px;
 }
 
 #title {
-    display: inline-block;
-    margin: 0px;
-    position: absolute;
-    top: 5%;
+    font-size: 25px;
+    margin-right: 5px;
 }
 
-h2 {
-    font-family: 'Noto Sans', sans-serif;
-    font-size: 20px;
-    margin: 0px;
-    padding: 10px;
-/*    display: inline-block;*/
+#toggles {
+    margin: 10px;
+    padding: 5px;
+    border-radius: 20px;
+    background: #D4D4D4;
 }
 
 .buttonContainer {
@@ -26,10 +36,17 @@ h2 {
     border-radius: 15px;
     display: flex;
     align-items: center;
-/*    width: 350px;*/
-    margin-top: 10px;
+    padding: 10px;
 }
 
+h2 {
+    font-family: 'Noto Sans', sans-serif;
+    font-size: 20px;
+    margin: 0px;
+    padding: 0 10px;
+    /*    display: inline-block;*/
+}
+    
 .toggle{
 /*    display: inline-block;*/
 /*    margin-right: 0px;*/
@@ -55,7 +72,7 @@ h2 {
     align-items: center;
 }
 
-.toggle .dark-mode-toggle, .toggle .night-mode-toggle, .toggle .high-contrast-toggle {
+.toggle .darkMode-toggle, .toggle .nightMode-toggle, .toggle .high-contrast-toggle {
     background: rgb(230, 230, 230);
     border-color: rgb(230, 230, 230);
     width: 35px;
@@ -64,7 +81,7 @@ h2 {
     -o-transition: .3s ease;
 }
 
-.dark-mode-toggle, .night-mode-toggle, .high-contrast-toggle {
+.darkMode-toggle, .nightMode-toggle, .high-contrast-toggle {
     margin: 0;
     width: 45px !important;
     height: 25px;
@@ -99,7 +116,7 @@ h2 {
 */
 }
 
-.dark-mode-toggle span, .night-mode-toggle span, .high-contrast-toggle span {
+.darkMode-toggle span, .nightMode-toggle span, .high-contrast-toggle span {
     height: 26px;
     width: 26px;
     right: 17px;
@@ -111,11 +128,11 @@ h2 {
     transition: .4s ease !important; */
 }
 
-.dark-mode-toggle span:hover, .night-mode-toggle span:hover, .high-contrast-toggle span:hover {
+.darkMode-toggle span:hover, .nightMode-toggle span:hover, .high-contrast-toggle span:hover {
     background: #F7F7F7
 }
 
-body.dark-mode .dark-mode-toggle span, body.night-mode .night-mode-toggle span, body.high-contrast .high-contrast-toggle span {
+body.darkMode .darkMode-toggle span, body.nightMode .nightMode-toggle span, body.high-contrast .high-contrast-toggle span {
     /* transition: 1s ease; */
     left: 17px;
 }

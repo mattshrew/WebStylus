@@ -11,46 +11,50 @@
 </head>
     <body>
         <div id="container">
-            <img src="webstyl.us.png" class="logo"></img>
-            <h1 id="title">WebStylus</h1>
-            <div id="DarkMode" class="buttonContainer">
-                <h2>Dark Mode</h2>
-                <button class="dark-mode-button toggle" aria-label="dark mode toggle">
-                    <span aria-hidden="true" class="dark-mode-toggle">
-                        <span class="DTspan"></span>
-                    </span>
-                </button>
+            <div id="header">
+                <img src="logo.svg" class="logo" />
+                <h1 id="title">WebStylus</h1>
             </div>
-            <div id="NightMode" class="buttonContainer">
-                <h2>Night Mode</h2>
-                <button class="night-mode-button toggle" aria-label="dark mode toggle">
-                    <span aria-hidden="true" class="night-mode-toggle">
-                        <span class="DTspan"></span>
-                    </span>
-                </button>
-            </div>
-            <div id="HighContrast" class="buttonContainer">
-                <h2>High Contrast</h2>
-                <button class="high-contrast-button toggle" aria-label="dark mode toggle">
-                    <span aria-hidden="true" class="high-contrast-toggle">
-                        <span class="DTspan"></span>
-                    </span>
-                </button>
-            </div>
-            <div id="Brightness" class="buttonContainer">
-                <h2>Brightness</h2>
-                <div class="slidecontainer">
-                    <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                  </div>
-                </button>
-            </div>
-            <div id="Font" class="buttonContainer">
-                <h2>Font</h2>
-                <button class="font-button toggle" aria-label="dark mode toggle">
-                    <span aria-hidden="true" class="dark-toggle">
-                        <span class="DTspan"></span>
-                    </span>
-                </button>
+            <div id="toggles">
+                <div id="DarkMode" class="buttonContainer">
+                    <h2>Dark Mode</h2>
+                    <button class="darkMode-button toggle" aria-label="dark mode toggle">
+                        <span aria-hidden="true" class="darkMode-toggle">
+                            <span class="DTspan"></span>
+                        </span>
+                    </button>
+                </div>
+                <div id="NightMode" class="buttonContainer">
+                    <h2>Night Mode</h2>
+                    <button class="nightMode-button toggle" aria-label="dark mode toggle">
+                        <span aria-hidden="true" class="nightMode-toggle">
+                            <span class="DTspan"></span>
+                        </span>
+                    </button>
+                </div>
+                <div id="HighContrast" class="buttonContainer">
+                    <h2>High Contrast</h2>
+                    <button class="high-contrast-button toggle" aria-label="dark mode toggle">
+                        <span aria-hidden="true" class="high-contrast-toggle">
+                            <span class="DTspan"></span>
+                        </span>
+                    </button>
+                </div>
+                <div id="Brightness" class="buttonContainer">
+                    <h2>Brightness</h2>
+                    <div class="slidecontainer">
+                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                      </div>
+                    </button>
+                </div>
+                <div id="Font" class="buttonContainer">
+                    <h2>Font</h2>
+                    <button class="font-button toggle" aria-label="dark mode toggle">
+                        <span aria-hidden="true" class="dark-toggle">
+                            <span class="DTspan"></span>
+                        </span>
+                    </button>
+                </div>
             </div>
         </div>
         <script src="popup.js"></script>
