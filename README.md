@@ -38,5 +38,5 @@ There are so many more features we want to add to WebStylus! More advanced acces
 6. Customize the page with WebStylus's sliders and toggles.
 7. Enjoy a more accessible browsing experience!
 
-
-`Built by @mattshrew, @raydrost, and @derekgou.`
+---
+Built by @mattshrew, @raydrost, and @derekgou.
