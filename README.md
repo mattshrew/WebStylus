@@ -20,6 +20,7 @@ Throughout this hackathon, we ran into several problems.
 Our first problem came during the ideation phase. As a team, we were enthusiastic about our project idea, but as the night progressed, we grew skeptical of its applications. We were able to persevere through our identity crisis and develop our concept into one that could benefit people on a much larger scale than we had thought.
 We also found problems working with the extension because of Google's security policies. Basic functions like `splice()` and tasks such as accessing the current webpage's stylesheet became impossible, and we had to resort to many workarounds to ensure extension functionality.
 Finally, as our project began to come together, we found difficulty injecting scripts into the web browser to edit the page's source code. 
+
 ## Accomplishments that we're proud of
 We’re proud of our commitment to the project, our resilience when running into challenges, and our final product as a whole. We're very proud that we were able to overcome our identity crisis and many other roadblocks to create an application to effectively help others. 
 ## What we learned
@@ -36,3 +37,6 @@ There are so many more features we want to add to WebStylus! More advanced acces
 5. Click the extension's icon to enable it on your current tab.
 6. Customize the page with WebStylus's sliders and toggles.
 7. Enjoy a more accessible browsing experience!
+
+
+`Built by @mattshrew, @raydrost, and @derekgou.`
