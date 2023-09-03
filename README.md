@@ -27,3 +27,12 @@ As coders, we added several new functions to our figurative toolkits. We used fu
 Most crucially, we learned about colour theory, colour manipulation and colour blindness. By working on an accessibility extension that focused on colours, we had to adapt and figure out how to manipulate colours to make web pages more customizable and readable for individual users.
 ## What's next for WebStylus
 There are so many more features we want to add to WebStylus! More advanced accessibility features for the colourblind, special customizable text-to-speech, and more! We plan on releasing this extension on the Chrome Web Store soon.
+
+## [Current] Instructions for use
+1. Download the repository's code.
+2. Go to chrome://extensions/.
+3. Click "Load unpacked"
+4. Select the local folder containing the extension.
+5. Click the extension's icon to enable it on your current tab.
+6. Customize the page with WebStylus's sliders and toggles.
+7. Enjoy a more accessible browsing experience!
