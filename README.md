@@ -1,5 +1,4 @@
-# WebStylus
-- Making browsing more accessible
+# WebStylus - Making browsing more accessible
 
 ## Inspiration
 WebStylus was initially a do-it-all extension with several small features focused on customizability. However, as we kept working, we started to shift our focus towards browsing accessibility. By integrating tools to make websites more navigable and readable, WebStylus reduces eye stress on users and makes browsing easier for the visually impaired.
