@@ -32,7 +32,7 @@ There are so many more features we want to add to WebStylus! More advanced acces
 ## [Current] Instructions for use
 1. Download the repository's code.
 2. Go to chrome://extensions/.
-3. Click "Load unpacked"
+3. Click "Load unpacked" (Note: Developer mode must be enabled - click the toggle in the top-right corner)
 4. Select the local folder containing the extension.
 5. Click the extension's icon to enable it on your current tab.
 6. Customize the page with WebStylus's sliders and toggles.
