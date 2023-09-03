@@ -27,24 +27,19 @@
         <div id="section-2">
             <div class="section-row">
                 <div class="subtitle">
-                    <p><b>AI alt-text</b> - Enable</p>
+                    <p><b>Saturation</b> -&nbsp; <div id="saturation">100%</div></p>
                 </div>
-                <div class="switch">
-                    <div class="switch-box">
-                        <img class="c1 enableAltText" />
-                        <img class="c2 enableAltText" />
-                    </div>
+                <div class="slider">
+                    <input type="range" min="0" max="20" value="" class="slider-bar" id="saturation_slider">
                 </div>
             </div>
             <div class="section-row">
                 <div class="subtitle">
-                    <p><b>AI alt-text</b> - Display</p>
+                    <p><b>Contrast</b> -&nbsp; <div id="contrast">100%</div></p>
                 </div>
-                <div class="switch">
-                    <div class="switch-box">
-                        <img class="c1 displayAltText" />
-                        <img class="c2 displayAltText" />
-                    </div>
+                <div class="slider">
+                    <input type="range" min="0" max="20" value="" class="slider-bar" id="contrast_slider">
+                    <div id="contrast"></div>
                 </div>
             </div>
         </div>
@@ -75,21 +70,47 @@
         <div id="section-4">
             <div class="section-row">
                 <div class="subtitle">
-                    <p><b>Grayscale</b> - Adjust</p>
+                    <p><b>AI alt-text</b> - Enable</p>
                 </div>
-                <div class="slider">
-                    <input type="range" min="0" max="10" value="0" class="slider-bar">
-                    <div id="demo"></div>
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 enableAltText" />
+                        <img class="c2 enableAltText" />
+                    </div>
                 </div>
             </div>
             <div class="section-row">
                 <div class="subtitle">
-                    <p><b>Contrast</b> - Adjust</p>
+                    <p><b>AI alt-text</b> - Display</p>
                 </div>
-                
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 displayAltText" />
+                        <img class="c2 displayAltText" />
+                    </div>
+                </div>
             </div>
         </div>
-
+        <div id="section-5">
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>Colour+ Mode</b></p>
+                    <p>Colourblind Accessibility</p>
+                </div>
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 colourblind" />
+                        <img class="c2 colourblind" />
+                    </div>
+                </div>
+            </div>
+            <div class="section-row">
+                <a class="footer" href="https://mattshrew.github.io" target="_blank">
+                    <p>Learn more</p>
+                    <img id="new" src="new_window.png" alt="new window"/>
+                </a>
+            </div>
+        </div>
         <script src="popup.js"></script>
     </body>
 </html>
