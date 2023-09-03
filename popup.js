@@ -1,4 +1,12 @@
-// document.addEventListener('DOMContentLoaded', function () { // can replace with another event or smt, this runs when popup is opened
+// chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+//     console.log(message);
+//     if (message.stylesheet) {
+//         const stylesheet = message.sylesheet;
+//         console.log("Received stylesheet:", stylesheet);
+//     }
+// });
+
+// document.addEventListener('DOMContentLoaded', function () {
 //     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
 //         var currentTab = tabs[0];
 //         var tabId = currentTab.id;
@@ -6,7 +14,7 @@
 //         chrome.scripting.executeScript(
 //             {
 //                 target: { tabId: tabId },
-//                 function: someFunction,
+//                 function: getStyles,
 //             },
 //             function (result) {
 //                 console.log("Result:", result);
@@ -22,13 +30,42 @@
 //         );
 //     });
 // });
+  
+// function getStyles() {
+//     var styles = [];
+  
+//     var sheets = document.styleSheets;
+//     for (var i = 0; i < sheets.length; i++) {
+//       try {
+//         var rules = sheets[i].cssRules;
+//         for (var j = 0; j < rules.length; j++) {
+//           var rule = rules[j];
+//           if (rule instanceof CSSStyleRule) {
+//             styles.push(rule.cssText);
+//           }
+//         }
+//       } catch (error) {
+//         // Handle any errors due to cross-origin stylesheets
+//         console.error('Error fetching CSS rules from stylesheet:', error);
+//       }
+//     }
+  
+//     return styles;
+// }  
+
+// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//     var currentTab = tabs[0];
+//     var tabId = currentTab.id;
+  
+//     const css = 'html { filter: invert(1) hue-rotate(180deg); } img, picture, video { filter: invert(1) hue-rotate(180deg); }';
+
+//     chrome.scripting.insertCSS({
+//         target: { tabId },
+//         css: css
+//     });
+// });
 
 
-const modes = ["darkMode", "nightMode"];
-
-document.addEventListener('DOMContentLoaded', async function () {
-    await setStyles();
-});
 
 async function setStyles() {
     chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
@@ -59,6 +96,7 @@ async function getStates() {
         "deuteranopia": 0.0, // red-green
         "tritanopia": 0.0 // blue = gray
     }
+    console.log(states);
     return states; // for now
 }
 
@@ -108,23 +146,145 @@ async function getStyles(states) {
 }
 
 
+let altTexted = false;
+
+async function setAltText() {
+    let enableAltText = localStorage.getItem("enableAltText");
+    let displayAltText = localStorage.getItem("displayAltText");
+
+
+    if (enableAltText != "null") {
+        if (!altTexted) {
+            chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                chrome.scripting.executeScript({
+                    target: { tabId: tabs[0].id },
+                    function: async () => {
+                        // Array of all images on page
+                        const images = Array.from(document.querySelectorAll("img"))
+                        console.log(images)
+            
+                        // Iterate through all images, make alt text
+                        for (const image in images) {
+                            const imageSelector = images[image]
+                            console.log(imageSelector)
+                            console.log(imageSelector.src)
+                            
+                            // setTimeout(function() { 
+                            //     asticaVision("2.0_full", image.src, 'Description', asticaCallback); //with options:
+                            // }, 2000);
+            
+            
+                            // Astica API endpoint
+                            const apiUrl = 'https://vision.astica.ai/describe';
+                            const apiKey = 'F8F2FE27-99AB-48BF-8CA6-0F00F24C18AA85CA951C-407F-4F11-B878-1213C8C4E34E';
+                            const modelVersion = '2.0_full'; 
+            
+                            // Data to send to API
+                            const imageUrl = images[image].src;
+                            const visionParams = 'description';
+            
+                            // JSON payload
+                            const payload = {
+                            tkn: apiKey,
+                            modelVersion: modelVersion,
+                            visionParams: visionParams,
+                            input: imageUrl,
+                            };
+                            if (imageSelector.alt == "") {
+                                // Send a POST request to the Astica API
+                                fetch(apiUrl, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(payload),
+                                })
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    // Log the API response in the console
+                                    console.log(data)
+                                    console.log(data["caption"]["text"]);
+    
+                                    imageSelector.alt = data["caption"]["text"]
+                                    
+                                })
+                                .catch((error) => {
+                                    // Handle any errors
+                                    console.error('Error:', error);
+                                });
+                            }
+                        }
+                    }
+                });
+            })
+        }
+        altTexted = true
+    }
+
+    if (displayAltText != "null" && enableAltText != "null") {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                function: async () => {
+                    // Array of all images on page
+                    const images = Array.from(document.querySelectorAll("img"))
+                    console.log(images)
+                    images.forEach((image) => {
+                        // Create a new paragraph element
+                        const altTextParagraph = document.createElement("p");
+                        altTextParagraph.classList.add("altElement")
+                        altTextParagraph.textContent = image.alt;
+                        image.insertAdjacentElement("afterend", altTextParagraph);
+                    });
+                }
+            })
+        });
+    } else if (displayAltText == "null") {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                function: async () => {
+                    document.querySelectorAll('.altElement').forEach(e => e.remove());
+                }
+            })
+        });
+    }
+}
+
+
 
 
 // JS For Frontend
 
+
+document.addEventListener('DOMContentLoaded', async function () {
+    await setStyles();
+    await setAltText();
+});
+
+const modes = ["master", "enableAltText", "displayAltText", "darkMode", "nightMode"];
+const toggles = {"c1": "off", "c2": "on"};
+
+let master = localStorage.getItem("master");
+let enableAltText = localStorage.getItem("enableAltText");
+let displayAltText = localStorage.getItem("displayAltText");
 let darkMode = localStorage.getItem("darkMode");
 let nightMode = localStorage.getItem("nightMode");
-let highContrast = localStorage.getItem("highContrast");
 
-const darkModeToggle = document.querySelector('.darkMode-button');
-const nightModeToggle = document.querySelector('.nightMode-button');
-const hightContrastToggle = document.querySelector('.high-contrast-button');
 const body = document.querySelector('body');
 
-async function toggleMode(mode, bool) {
-    if (bool) body.classList.add(mode);
+async function toggleMode(mode, val) {
+    if (val) body.classList.add(mode);
     else body.classList.remove(mode);
-    localStorage.setItem(mode, (bool) ? "enabled" : "null");
+    localStorage.setItem(mode, (val) ? "enabled" : "null");
+
+    if (mode == "master" && val == false) {
+        for (const mode of modes.slice(1)) {
+            toggleMode(mode, false);
+        }
+    } else if (mode == "enableAltText" && val == false) {
+        // toggleMode("displayAltText", false);
+    }
 }
 
 for (const mode of modes) {
@@ -134,198 +294,20 @@ for (const mode of modes) {
 }
 
 // Add click listeners
-document.querySelectorAll(".toggle").forEach((toggle, i) => {
+document.querySelectorAll(".switch-box").forEach((toggle, i) => {
     toggle.addEventListener('click', async () => {
-        await toggleMode(modes[i], !body.classList.contains(modes[i]));
+        if (localStorage.getItem("master") == "null" && modes[i] != "master") return;
+        await toggleMode(modes[i], !(body.classList.contains(modes[i])));
         await setStyles();
+        await setAltText();
     });
 });
 
-// testing....
-// document.addEventListener("DOMContentLoaded", function() {
-//     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//         var currentTab = tabs[0];
-//         var tabId = currentTab.id;
+var slider = document.querySelector("slider-bar");
+var output = document.getElementById("demo");
+output.innerHTML = slider.value; // Display the default slider value
 
-//         chrome.scripting.executeScript(
-//             {
-//                 target: { tabId: tabId },
-//                 files: ["stylePage.js"],
-//             },
-//             function (result) {
-//                 console.log("Result:", result);
-//                 if (!chrome.runtime.lastError) {                    
-//                     // do smt
-//                 } else {
-//                     console.error('Error executing script:', chrome.runtime.lastError);
-//                 }
-//             }
-//         );
-//     });
-// });
-
-
-
-
-// AI Alt Text Toggle
-
-// Add some css for the alt text display
-chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        function: async () => {
-            pageBody = document.querySelector("body")
-
-            // Add styling for the alt text
-            const altTextStyle = document.createElement("style")
-            altTextStyle.classList.add("altTextStyle")
-            altTextStyle.textContent = ".altElement {font-size: 20px; font-weight: bold}"
-            pageBody.insertAdjacentElement("afterend", altTextStyle)
-        }
-    })
-})
-
-let altText = localStorage.getItem("altText");
-
-const altTextToggle = document.querySelector('.alt-text-button');
-
-let altTexted = false
-
-// Enable AI Alt Text
-const enableAltText = () => {
-    body.classList.add("ai-alt-text");
-    localStorage.setItem("altText", "enabled")
-    if (!altTexted) {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            chrome.scripting.executeScript({
-                target: { tabId: tabs[0].id },
-                function: async () => {
-                    // Array of all images on page
-                    const images = Array.from(document.querySelectorAll("img"))
-                    console.log(images)
-        
-                    // Iterate through all images, make alt text
-                    for (const image in images) {
-                        const imageSelector = images[image]
-                        console.log(imageSelector)
-                        console.log(imageSelector.src)
-                        
-                        // setTimeout(function() { 
-                        //     asticaVision("2.0_full", image.src, 'Description', asticaCallback); //with options:
-                        // }, 2000);
-        
-        
-                        // Astica API endpoint
-                        const apiUrl = 'https://vision.astica.ai/describe';
-                        const apiKey = 'F8F2FE27-99AB-48BF-8CA6-0F00F24C18AA85CA951C-407F-4F11-B878-1213C8C4E34E';
-                        const modelVersion = '2.0_full'; 
-        
-                        // Data to send to API
-                        const imageUrl = images[image].src;
-                        const visionParams = 'description';
-        
-                        // JSON payload
-                        const payload = {
-                        tkn: apiKey,
-                        modelVersion: modelVersion,
-                        visionParams: visionParams,
-                        input: imageUrl,
-                        };
-                        if (imageSelector.alt == "") {
-                            // Send a POST request to the Astica API
-                            fetch(apiUrl, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify(payload),
-                            })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                // Log the API response in the console
-                                console.log(data)
-                                console.log(data["caption"]["text"]);
-
-                                imageSelector.alt = data["caption"]["text"]
-                                
-                            })
-                            .catch((error) => {
-                                // Handle any errors
-                                console.error('Error:', error);
-                            });
-                        }
-                    }
-                }
-            });
-        })
-    }
-    altTexted = true
- }
- // Disable AI Alt Text
- const disableAltText = () => {
-    body.classList.remove("ai-alt-text");
-    localStorage.setItem("altText", null)
+// Update the current slider value (each time you drag the slider handle)
+slider.oninput = function() {
+  output.innerHTML = this.value;
 }
-if (altText == "enabled") {
-    enableAltText();
-}
-altTextToggle.addEventListener('click', () => {
-    altText = localStorage.getItem("altText");
-    if (altText !== "enabled") {
-        enableAltText();
-    } else {
-        disableAltText();
-    }
-})
-
-
-// JS for alt text display
-
-let displayAlt = localStorage.getItem("displayAlt");
-
-const displayAltToggle = document.querySelector('.display-alt-button');
-
-// Enable Display Alt
-const enableDisplayAlt = () => {
-    body.classList.add("display-alt");
-    localStorage.setItem("displayAlt", "enabled")
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        chrome.scripting.executeScript({
-            target: { tabId: tabs[0].id },
-            function: async () => {
-                // Array of all images on page
-                const images = Array.from(document.querySelectorAll("img"))
-                console.log(images)
-                images.forEach((image) => {
-                    // Create a new paragraph element
-                    const altTextParagraph = document.createElement("p");
-                    altTextParagraph.classList.add("altElement")
-                    altTextParagraph.textContent = image.alt;
-                    image.insertAdjacentElement("afterend", altTextParagraph);
-                });
-            }
-        })
-    })
- }
- // Disable Display Alt
- const disableDisplayAlt = () => {
-    body.classList.remove("display-alt");
-    localStorage.setItem("displayAlt", null)
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        chrome.scripting.executeScript({
-            target: { tabId: tabs[0].id },
-            function: async () => {
-                document.querySelectorAll('.altElement').forEach(e => e.remove());
-            }
-        })
-    })
-}
-
-displayAltToggle.addEventListener('click', () => {
-    displayAlt = localStorage.getItem("displayAlt");
-    if (displayAlt !== "enabled") {
-        enableDisplayAlt();
-    } else {
-        disableDisplayAlt();
-    }
-})

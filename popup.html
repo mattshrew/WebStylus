@@ -7,71 +7,89 @@
     <link rel="stylesheet" href="popup.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=IBM Plex Mono' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
 </head>
     <body>
-        <div id="container">
-            <div id="header">
-                <img src="logo.svg" class="logo" />
-                <h1 id="title">WebStylus</h1>
+        <div id="section-1">
+            <div id="title">
+                <img src="logo.svg" id="logo" alt="logo"/>
+                <h1>WebStylus</h1>
             </div>
-            <div id="toggles">
-                <div id="DarkMode" class="buttonContainer">
-                    <h2>Dark Mode</h2>
-                    <button class="darkMode-button toggle" aria-label="dark mode toggle">
-                        <span aria-hidden="true" class="darkMode-toggle">
-                            <span class="DTspan"></span>
-                        </span>
-                    </button>
+            <div class="switch">
+                <div class="switch-box">
+                    <img class="c1 master" />
+                    <img class="c2 master" />
                 </div>
-                <div id="NightMode" class="buttonContainer">
-                    <h2>Night Mode</h2>
-                    <button class="nightMode-button toggle" aria-label="dark mode toggle">
-                        <span aria-hidden="true" class="nightMode-toggle">
-                            <span class="DTspan"></span>
-                        </span>
-                    </button>
-                </div>
-                <div id="HighContrast" class="buttonContainer">
-                    <h2>High Contrast</h2>
-                    <button class="high-contrast-button toggle" aria-label="dark mode toggle">
-                        <span aria-hidden="true" class="high-contrast-toggle">
-                            <span class="DTspan"></span>
-                        </span>
-                    </button>
-                </div>
-                <div id="Brightness" class="buttonContainer">
-                    <h2>Brightness</h2>
-                    <div class="slidecontainer">
-                        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-                      </div>
-                    </button>
-                </div>
-                <div id="Font" class="buttonContainer">
-                    <h2>Font</h2>
-                    <button class="font-button toggle" aria-label="dark mode toggle">
-                        <span aria-hidden="true" class="dark-toggle">
-                            <span class="DTspan"></span>
-                        </span>
-                    </button>
-                </div>
-                <div id="AIAltText" class="buttonContainer">
-                    <h2>AI Alt Text</h2>
-                    <button class="alt-text-button toggle" aria-label="dark mode toggle">
-                        <span aria-hidden="true" class="alt-text-toggle">
-                            <span class="DTspan"></span>
-                        </span>
-                    </button>
-                </div>
-                <div id="DisplayAlt" class="buttonContainer">
-                    <h2>Display Alt Text</h2>
-                    <button class="display-alt-button toggle" aria-label="dark mode toggle">
-                        <span aria-hidden="true" class="display-alt-toggle">
-                            <span class="DTspan"></span>
-                        </span>
-                    </button>
-                </div>
+            </div>
         </div>
+        <div id="section-2">
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>AI alt-text</b> - Enable</p>
+                </div>
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 enableAltText" />
+                        <img class="c2 enableAltText" />
+                    </div>
+                </div>
+            </div>
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>AI alt-text</b> - Display</p>
+                </div>
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 displayAltText" />
+                        <img class="c2 displayAltText" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="section-3">
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>Dark Mode</b> - Smart colour invert</p>
+                </div>
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 darkMode" />
+                        <img class="c2 darkMode" />
+                    </div>
+                </div>
+            </div>
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>Night Mode</b> - Reduce blue light</p>
+                </div>
+                <div class="switch">
+                    <div class="switch-box">
+                        <img class="c1 nightMode" />
+                        <img class="c2 nightMode" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="section-4">
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>Grayscale</b> - Adjust</p>
+                </div>
+                <div class="slider">
+                    <input type="range" min="0" max="10" value="0" class="slider-bar">
+                    <div id="demo"></div>
+                </div>
+            </div>
+            <div class="section-row">
+                <div class="subtitle">
+                    <p><b>Contrast</b> - Adjust</p>
+                </div>
+                
+            </div>
+        </div>
+
         <script src="popup.js"></script>
     </body>
 </html>
