@@ -89,7 +89,7 @@ async function setAltText() {
             
                             // Astica API endpoint
                             const apiUrl = 'https://vision.astica.ai/describe';
-                            const apiKey = 'F8F2FE27-99AB-48BF-8CA6-0F00F24C18AA85CA951C-407F-4F11-B878-1213C8C4E34E';
+                            const apiKey = 'INSERT YOUR API KEY HERE!!';
                             const modelVersion = '2.0_full'; 
             
                             // Data to send to API
