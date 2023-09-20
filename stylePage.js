@@ -1,17 +1,17 @@
 document.querySelector("html").style.filter = "invert(1) hue-rotate(180deg)";
-console.log(document.querySelector("html"));
+// console.log(document.querySelector("html"));
 document.querySelector("html").classList.toggle("AAAAAAAAAA");
 mediaa = document.querySelectorAll("img, picture, video");
 mediaa.forEach((mediaItem) => {
     mediaItem.style.filter = "invert(1) hue-rotate(180deg)";
 })
-console.log(mediaa);
+// console.log(mediaa);
 
 
 test1 = document.querySelectorAll("a[href]");
-console.log(test1);
+// console.log(test1);
 test2 = document.querySelectorAll("*");
-console.log(test2);
+// console.log(test2);
 
 test1.forEach((item) => {
     bigColour = getComputedStyle(item).color;

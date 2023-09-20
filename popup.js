@@ -1,3 +1,24 @@
+async function initialize() {
+    console.log(localStorage);
+    
+    for (let mode of modes) {
+        let setting = Number(localStorage.getItem(mode));
+        let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
+        localStorage.setItem(mode, (val) ? setting : 0)
+        if (val) toggleMode(mode, true);
+    }
+    
+    let saturation = Number(localStorage.getItem("saturation"));
+    let contrast = Number(localStorage.getItem("contrast"));
+    if (saturation == "null" || saturation == null) saturation = 10;
+    if (contrast == "null" || contrast == null) contrast = 10;
+    localStorage.setItem("saturation", saturation);
+    localStorage.setItem("contrast", contrast);
+    
+    await setStyles();
+    await setAltText();
+}
+
 async function setStyles() {
     chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
         var currentTab = tabs[0];
@@ -21,11 +42,11 @@ async function setStyles() {
 async function getStates() {
     console.log(localStorage)
     let states = {
-        "dark": (localStorage.getItem("darkMode") == "null") ? 0.0 : 1.0,
-        "night": (localStorage.getItem("nightMode") == "null") ? 0.0 : 1.0,
-        "saturation": (localStorage.getItem("saturation") == "null") ? 1.0 : localStorage.getItem("saturation")/10, // 0 to 2 (default is 1)
-        "contrast": (localStorage.getItem("contrast") == "null") ? 1.0 : localStorage.getItem("contrast")/10, // 0 to 2 (default is 1)
-        "colourblind": (localStorage.getItem("colourblind") == "null") ? 0.0 : 1.0 // red
+        "dark": Number(localStorage.getItem("darkMode")),
+        "night": Number(localStorage.getItem("nightMode")),
+        "saturation": Number(localStorage.getItem("saturation"))/10, // 0 to 2 (default is 1)
+        "contrast": Number(localStorage.getItem("contrast"))/10, // 0 to 2 (default is 1)
+        "colourblind": Number(localStorage.getItem("colourblind")) // red
     }
     console.log(states);
     return states; 
@@ -62,11 +83,11 @@ async function styleColour() {
 let altTexted = false;
 
 async function setAltText() {
-    let enableAltText = localStorage.getItem("enableAltText");
-    let displayAltText = localStorage.getItem("displayAltText");
+    let enableAltText = Number(localStorage.getItem("enableAltText"));
+    let displayAltText = Number(localStorage.getItem("displayAltText"));
 
 
-    if (enableAltText != "null") {
+    if (enableAltText != "null" && enableAltText != null && enableAltText != 0) {
         if (!altTexted) {
             chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
                 chrome.scripting.executeScript({
@@ -134,7 +155,7 @@ async function setAltText() {
         altTexted = true
     }
 
-    if (displayAltText != "null" && enableAltText != "null") {
+    if (displayAltText != "null" && displayAltText != null && displayAltText != 0 && enableAltText != "null" && enableAltText != null && enableAltText != 0) {
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             chrome.scripting.executeScript({
                 target: { tabId: tabs[0].id },
@@ -172,28 +193,38 @@ async function setAltText() {
 const modes = ["master", "darkMode", "nightMode", "enableAltText", "displayAltText", "colourblind"];
 const toggles = {"c1": "off", "c2": "on"};
 
-let master = localStorage.getItem("master");
-let enableAltText = localStorage.getItem("enableAltText");
-let displayAltText = localStorage.getItem("displayAltText");
-let darkMode = localStorage.getItem("darkMode");
-let nightMode = localStorage.getItem("nightMode");
-let saturation = localStorage.getItem("saturation");
-let contrast = localStorage.getItem("contrast");
-let colourblind = localStorage.getItem("colourblind");
+
 
 const body = document.querySelector('body');
 
+// chrome.tabs.onActivated.addListener(async function() {
+//     await initialize();
+// });
+
+// chrome.tabs.onUpdated.addListener(async function (tabId, info) {
+//     await initialize();
+// });
+
 document.addEventListener('DOMContentLoaded', async function () {
+    if (Number(localStorage.getItem("master")) != 1) document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
+    else document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
+
+    await initialize();
+    for (let mode of modes) {
+        let setting = Number(localStorage.getItem(mode));
+        let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
+        if (val) toggleMode(mode, true);
+    }
+
     let saturation = localStorage.getItem("saturation");
     let contrast = localStorage.getItem("contrast");
-    if (saturation == "null") localStorage.setItem("saturation", 10); saturation = 10;
-    if (contrast == "null") localStorage.setItem("contrast", 10); contrast = 10;
 
     var saturation_output = document.getElementById("saturation");
         saturation_output.innerHTML = `${saturation*10}%`;
     var saturation_slider = document.getElementById("saturation_slider");
         saturation_slider.value = saturation;
         saturation_slider.addEventListener('input', function() {
+            if (Number(localStorage.getItem("master")) != 1) return;
             saturation_output.innerHTML = `${saturation_slider.value*10}%`;
             localStorage.setItem("saturation", saturation_slider.value);
             setStyles();
@@ -204,41 +235,37 @@ document.addEventListener('DOMContentLoaded', async function () {
     var contrast_slider = document.getElementById("contrast_slider");
         contrast_slider.value = contrast;
         contrast_slider.addEventListener('input', function() {
+            if (Number(localStorage.getItem("master")) != 1) return;
             contrast_output.innerHTML = `${contrast_slider.value*10}%`;
             localStorage.setItem("contrast", contrast_slider.value);
             setStyles();
         });
-    
-
-    await setStyles();
-    await setAltText();
 });
 
 
 async function toggleMode(mode, val) {
     if (val) body.classList.add(mode);
     else body.classList.remove(mode);
-    localStorage.setItem(mode, (val) ? "enabled" : "null");
+    localStorage.setItem(mode, (val) ? 1 : 0);
 
-    if (mode == "master" && val == false) {
-        for (const mode of modes.slice(1)) {
-            toggleMode(mode, false);
+    if (mode == "master") {
+        if (val == false) {
+            for (const mode of modes.slice(1)) {
+                toggleMode(mode, false);
+            }
+            document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
+        } else {
+            document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
         }
     } /* else if (mode == "enableAltText" && val == false) {
         // toggleMode("displayAltText", false); 
     }*/
 }
 
-for (const mode of modes) {
-    if (localStorage.getItem(mode) != "null") {
-        toggleMode(mode, true);
-    }
-}
-
 // Add click listeners
 document.querySelectorAll(".switch-box").forEach((toggle, i) => {
     toggle.addEventListener('click', async () => {
-        if (localStorage.getItem("master") == "null" && modes[i] != "master") return;
+        if ((Number(localStorage.getItem("master")) == "null" || Number(localStorage.getItem("master")) == null || Number(localStorage.getItem("master")) == 0) && (modes[i] != "master")) return;
         await toggleMode(modes[i], !(body.classList.contains(modes[i])));
         await setStyles();
         await setAltText();

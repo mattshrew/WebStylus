@@ -14,7 +14,7 @@
 body {
     width: 300px;
     height: 500px;
-    background-image: url("background.svg");
+    background-image: url("images/background.svg");
     overflow: hidden;
     z-index: -1;
 }
