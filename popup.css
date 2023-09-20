@@ -91,20 +91,20 @@ body.master .switch-box {
 }
 
 .c1 {
-    content: url("off-on.png")
+    content: url("images/off-on.png")
 }
 
 .c2 {
     margin-left: 4px;
-    content: url("on-off.png");
+    content: url("images/on-off.png");
 }
 
 body.master .c1.master, body.enableAltText .c1.enableAltText, body.displayAltText .c1.displayAltText, body.darkMode .c1.darkMode, body.nightMode .c1.nightMode, body.colourblind .c1.colourblind {
-    content: url("off-off.png");
+    content: url("images/off-off.png");
 }
 
 body.master .c2.master, body.enableAltText .c2.enableAltText, body.displayAltText .c2.displayAltText, body.darkMode .c2.darkMode, body.nightMode .c2.nightMode, body.colourblind .c2.colourblind {
-    content: url("on-on.png");
+    content: url("images/on-on.png");
 }
 
 #section-2 {
@@ -182,7 +182,7 @@ body.master .c2.master, body.enableAltText .c2.enableAltText, body.displayAltTex
     height: 16px;
     /* border-radius: 50%; */
     /* transform: rotate(45deg); */
-    background: center/cover no-repeat url("slider.png");
+    background: center/cover no-repeat url("images/slider.png");
     cursor: pointer;
     z-index: 3;
 }
@@ -220,6 +220,8 @@ body.master .c2.master, body.enableAltText .c2.enableAltText, body.displayAltTex
 #section-5 .footer p {
     font-family: 'Ubuntu';
     font-size: 12px;
+    /* text-decoration: underline; */
+    color: #706000;
 }
 
 #section-5 .footer #new {
