@@ -44,10 +44,11 @@ async function setStyles() {
 }
 
 async function getStates() {
+    let states;
     if (Number(localStorage.getItem("master")) != 1) {
-        let states = {"dark": 0, "night": 0, "saturation": 1, "contrast": 1, "colourblind": 0};
+        states = {"dark": 0, "night": 0, "saturation": 1, "contrast": 1, "colourblind": 0};
     } else {
-        let states = {
+        states = {
             "dark": Number(localStorage.getItem("darkMode")),
             "night": Number(localStorage.getItem("nightMode")),
             "saturation": Number(localStorage.getItem("saturation"))/10, // 0 to 2 (default is 1)
