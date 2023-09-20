@@ -197,6 +197,8 @@ const toggles = {"c1": "off", "c2": "on"};
 
 const body = document.querySelector('body');
 
+// below is testing auto-enable extension when switching tabs... only does it for the first 2 tabs tho
+
 // chrome.tabs.onActivated.addListener(async function() {
 //     await initialize();
 // });
