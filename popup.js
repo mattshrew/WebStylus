@@ -1,5 +1,9 @@
 async function initialize() {
     console.log(localStorage);
+
+    // if (Number(localStorage.getItem("master")) != 1) {
+    //     localStorage.setItem("saturation", 10);
+    // }
     
     for (let mode of modes) {
         let setting = Number(localStorage.getItem(mode));
@@ -10,8 +14,8 @@ async function initialize() {
     
     let saturation = Number(localStorage.getItem("saturation"));
     let contrast = Number(localStorage.getItem("contrast"));
-    if (saturation == "null" || saturation == null) saturation = 10;
-    if (contrast == "null" || contrast == null) contrast = 10;
+    if ((Number(localStorage.getItem("master")) != 1) || saturation == "null" || saturation == null) saturation = 10;
+    if ((Number(localStorage.getItem("master")) != 1) || contrast == "null" || contrast == null) contrast = 10;
     localStorage.setItem("saturation", saturation);
     localStorage.setItem("contrast", contrast);
     
@@ -40,13 +44,16 @@ async function setStyles() {
 }
 
 async function getStates() {
-    console.log(localStorage)
-    let states = {
-        "dark": Number(localStorage.getItem("darkMode")),
-        "night": Number(localStorage.getItem("nightMode")),
-        "saturation": Number(localStorage.getItem("saturation"))/10, // 0 to 2 (default is 1)
-        "contrast": Number(localStorage.getItem("contrast"))/10, // 0 to 2 (default is 1)
-        "colourblind": Number(localStorage.getItem("colourblind")) // red
+    if (Number(localStorage.getItem("master")) != 1) {
+        let states = {"dark": 0, "night": 0, "saturation": 1, "contrast": 1, "colourblind": 0};
+    } else {
+        let states = {
+            "dark": Number(localStorage.getItem("darkMode")),
+            "night": Number(localStorage.getItem("nightMode")),
+            "saturation": Number(localStorage.getItem("saturation"))/10, // 0 to 2 (default is 1)
+            "contrast": Number(localStorage.getItem("contrast"))/10, // 0 to 2 (default is 1)
+            "colourblind": Number(localStorage.getItem("colourblind")) // red
+        }
     }
     console.log(states);
     return states; 
@@ -220,7 +227,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let saturation = localStorage.getItem("saturation");
     let contrast = localStorage.getItem("contrast");
-
     var saturation_output = document.getElementById("saturation");
         saturation_output.innerHTML = `${saturation*10}%`;
     var saturation_slider = document.getElementById("saturation_slider");
