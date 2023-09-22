@@ -68,7 +68,7 @@ async function getStyles(states) {
         `img, picture, video { filter: invert(${states.dark}) hue-rotate(${180*states.dark}deg) saturate(100%) contrast(100%) !important; }`,
     ];
 
-    if (states.night) css.push("html::before { display: block; background: #ffffbc; mix-blend-mode: multiply; content: ' '; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 999; }");
+    if (states.night) css.push("html::before { display: block; background: #ffffbcbf; mix-blend-mode: multiply; content: ' '; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: 999; }");
     else css.push("html::before { display: none; }");
 
     let res = css.join(' ')
