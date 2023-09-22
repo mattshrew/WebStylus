@@ -32,6 +32,15 @@ body > div {
     background: var(--dark-gray);
 }
 
+/* temporary */
+body {
+    height: 400px;
+}
+
+#section-5 {
+    background: var(--dark-gray);
+}
+
 #section-1 {
     display: flex;
     align-items: center;
