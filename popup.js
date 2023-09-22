@@ -1,5 +1,5 @@
 async function initialize() {
-    console.log(localStorage);
+    // console.log(localStorage);
 
     // if (Number(localStorage.getItem("master")) != 1) {
     //     localStorage.setItem("saturation", 10);
@@ -29,7 +29,7 @@ async function setStyles() {
         var tabId = currentTab.id;
         const states = await getStates();
         const result = await getStyles(states);
-        console.log("Result:", result);
+        // console.log("Result:", result);
         if (!chrome.runtime.lastError) {
             await chrome.scripting.insertCSS({
                 target: { tabId },
@@ -56,7 +56,7 @@ async function getStates() {
             "colourblind": Number(localStorage.getItem("colourblind")) // red
         }
     }
-    console.log(states);
+    // console.log(states);
     return states; 
 }
 
@@ -103,13 +103,13 @@ async function setAltText() {
                     function: async () => {
                         // Array of all images on page
                         const images = Array.from(document.querySelectorAll("img"))
-                        console.log(images)
+                        // console.log(images)
             
                         // Iterate through all images, make alt text
                         for (const image in images) {
                             const imageSelector = images[image]
-                            console.log(imageSelector)
-                            console.log(imageSelector.src)
+                            // console.log(imageSelector)
+                            // console.log(imageSelector.src)
                             
                             // setTimeout(function() { 
                             //     asticaVision("2.0_full", image.src, 'Description', asticaCallback); //with options:
@@ -144,8 +144,8 @@ async function setAltText() {
                                 .then((response) => response.json())
                                 .then((data) => {
                                     // Log the API response in the console
-                                    console.log(data)
-                                    console.log(data["caption"]["text"]);
+                                    // console.log(data)
+                                    // console.log(data["caption"]["text"]);
     
                                     imageSelector.alt = data["caption"]["text"]
                                     
@@ -170,7 +170,7 @@ async function setAltText() {
                 function: async () => {
                     // Array of all images on page
                     const images = Array.from(document.querySelectorAll("img"))
-                    console.log(images)
+                    // console.log(images)
                     images.forEach((image) => {
                         // Create a new paragraph element
                         const altTextParagraph = document.createElement("p");
