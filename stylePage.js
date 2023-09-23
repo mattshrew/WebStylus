@@ -1,20 +1,16 @@
-document.querySelector("html").style.filter = "invert(1) hue-rotate(180deg)";
-// console.log(document.querySelector("html"));
 document.querySelector("html").classList.toggle("AAAAAAAAAA");
-mediaa = document.querySelectorAll("img, picture, video");
-mediaa.forEach((mediaItem) => {
-    mediaItem.style.filter = "invert(1) hue-rotate(180deg)";
-})
-// console.log(mediaa);
-
 
 test1 = document.querySelectorAll("a[href]");
 // console.log(test1);
 test2 = document.querySelectorAll("*");
 // console.log(test2);
 
+// var items = {};
+
 test1.forEach((item) => {
+    // console.log(item.id);
     bigColour = getComputedStyle(item).color;
+    // console.log(bigColour);
     bigColour = bigColour.replace('(', '');
     bigColour = bigColour.replace(')', '');
     bigColour = bigColour.replace('rgb', '');
@@ -22,7 +18,8 @@ test1.forEach((item) => {
     bigColour = bigColour.replace(/ /g, '');
     bigColour = bigColour.replace(/"/g, '');
     bigColourArr = bigColour.split(',');
-    for (let i = 0; i<bigColourArr.length; i++){
+    // console.log(bigColour);
+    for (let i = 0; i<bigColourArr.length; i++){ // changes to integers
         bigColourArr[i] = Number(bigColourArr[i]);
     }
     if (bigColourArr[0]+bigColourArr[1]+bigColourArr[2]>=380){
@@ -30,6 +27,9 @@ test1.forEach((item) => {
     } else {
         bigColour = 'rgb(255, 255, 255)';
     }
+    // items[item] = bigColour;
+    // console.log(bigColour);
+    // console.log(items);
     item.style.textDecorationLine = 'underline';
     item.style.textShadow = '1px 0px 4px '+bigColour+', 2px 0px 4px '+bigColour+', 3px 0px 4px '+bigColour+', 2px 0px 3px '+bigColour+', 2px 3px 15px '+bigColour;
 })

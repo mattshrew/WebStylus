@@ -207,9 +207,15 @@ const body = document.querySelector('body');
 
 // below is testing auto-enable extension when switching tabs... only does it for the first 2 tabs tho
 
-// chrome.tabs.onActivated.addListener(async function() {
+// chrome.tabs.onActivated.addListener(simulateInitialize);
+
+// async function simulateInitialize() {
 //     await initialize();
-// });
+//     await chrome.tabs.removeEventListener(simulateInitialize);
+//     await chrome.tabs.addListener(simulateInitialize);
+//     await chrome.tabs.reload();
+//     await initialize();
+// }
 
 // chrome.tabs.onUpdated.addListener(async function (tabId, info) {
 //     await initialize();
@@ -276,6 +282,28 @@ document.querySelectorAll(".switch-box").forEach((toggle, i) => {
     toggle.addEventListener('click', async () => {
         if ((Number(localStorage.getItem("master")) == "null" || Number(localStorage.getItem("master")) == null || Number(localStorage.getItem("master")) == 0) && (modes[i] != "master")) return;
         await toggleMode(modes[i], !(body.classList.contains(modes[i])));
+        if (modes[i] == "colourblind" && Number(localStorage.getItem("colourblind")) != 1.0) {
+            await chrome.tabs.reload().then(async () => {
+                chrome.tabs.onUpdated.addListener(simulateReload);
+
+                async function simulateReload() {
+                    await initialize();
+                    chrome.tabs.onUpdated.removeEventListener(simulateReload);
+                }
+                
+            })
+            // document.dispatchEvent(new Event("DOMContentLoaded")); 
+            
+            // if (Number(localStorage.getItem("master")) != 1) document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
+            // else document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
+
+            // await initialize();
+            // for (let mode of modes) {
+            //     let setting = Number(localStorage.getItem(mode));
+            //     let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
+            //     if (val) toggleMode(mode, true);
+            // }
+        }
         await setStyles();
         await setAltText();
     });
