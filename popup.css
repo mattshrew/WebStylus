@@ -180,7 +180,7 @@ body.master .c2.master, body.enableAltText .c2.enableAltText, body.displayAltTex
     z-index: 2;
 }
 
-.slider-bar:hover {
+body.master .slider-bar:hover {
     opacity: 1;
 }
 
@@ -192,8 +192,12 @@ body.master .c2.master, body.enableAltText .c2.enableAltText, body.displayAltTex
     /* border-radius: 50%; */
     /* transform: rotate(45deg); */
     background: center/cover no-repeat url("images/slider.png");
-    cursor: pointer;
+    cursor: default;
     z-index: 3;
+}
+
+body.master .slider-bar::-webkit-slider-thumb {
+    cursor: pointer;
 }
 
 #section-5 {
