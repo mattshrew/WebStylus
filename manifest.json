@@ -3,7 +3,7 @@
     "name": "WebStylus",
     "description": "",
     "version": "1.0",
-    "permissions": ["activeTab", "tabs", "scripting"],
+    "permissions": ["activeTab", "scripting"],
     "action": {
         "default_title": "WebStylus",
         "default_popup": "popup.html",
