@@ -217,44 +217,98 @@ const body = document.querySelector('body');
 //     await initialize();
 // }
 
-// chrome.tabs.onUpdated.addListener(async function (tabId, info) {
-//     await initialize();
-// });
+async function inaccessible() {
+    localStorage.setItem("master", 0);
+    document.querySelector(".switch-box").style.cursor = "default";
+    document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
+
+    return console.log("Cannot run on chrome:// tabs")
+}
+
+chrome.tabs.onUpdated.addListener(async function (tabId, info) { // for reloading colourblind mode
+    await chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
+        if (tabs[0].url == undefined) return;
+        if (tabs[0].url.startsWith("chrome://")) return inaccessible();
+
+        await initialize();
+    });
+});
 
 document.addEventListener('DOMContentLoaded', async function () {
-    if (Number(localStorage.getItem("master")) != 1) document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
-    else document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
+    await chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
+        if (tabs[0].url == undefined) return;
+        if (tabs[0].url.startsWith("chrome://")) return inaccessible();
 
-    await initialize();
-    for (let mode of modes) {
-        let setting = Number(localStorage.getItem(mode));
-        let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
-        if (val) toggleMode(mode, true);
-    }
-
-    let saturation = localStorage.getItem("saturation");
-    let contrast = localStorage.getItem("contrast");
-    var saturation_output = document.getElementById("saturation");
-        saturation_output.innerHTML = `${saturation*10}%`;
-    var saturation_slider = document.getElementById("saturation_slider");
-        saturation_slider.value = saturation;
-        saturation_slider.addEventListener('input', function() {
-            if (Number(localStorage.getItem("master")) != 1) return;
-            saturation_output.innerHTML = `${saturation_slider.value*10}%`;
-            localStorage.setItem("saturation", saturation_slider.value);
-            setStyles();
+        document.querySelectorAll(".switch-box").forEach((toggle, i) => {
+            toggle.addEventListener('click', async () => {
+                if ((Number(localStorage.getItem("master")) == "null" || Number(localStorage.getItem("master")) == null || Number(localStorage.getItem("master")) == 0) && (modes[i] != "master")) return;
+                await toggleMode(modes[i], !(body.classList.contains(modes[i])));
+                if (modes[i] == "colourblind" && Number(localStorage.getItem("colourblind")) != 1.0) {
+                    await chrome.tabs.reload().then(async () => {
+                        // chrome.tabs.onUpdated.addListener(simulateReload);
+        
+                        // async function simulateReload() {
+                        //     await initialize();
+                        //     // chrome.tabs.onUpdated.removeListener(simulateReload);
+                        // }
+                        
+                    })
+                    // document.dispatchEvent(new Event("DOMContentLoaded")); 
+                    
+                    // if (Number(localStorage.getItem("master")) != 1) document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
+                    // else document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
+        
+                    // await initialize();
+                    // for (let mode of modes) {
+                    //     let setting = Number(localStorage.getItem(mode));
+                    //     let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
+                    //     if (val) toggleMode(mode, true);
+                    // }
+                }
+                await setStyles();
+                await setAltText();
+            });
         });
+    
+        if (Number(localStorage.getItem("master")) != 1) document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
+        else document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
+    
+        await initialize();
+        for (let mode of modes) {
+            let setting = Number(localStorage.getItem(mode));
+            let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
+            if (val) toggleMode(mode, true);
+        }
+    
+        let saturation = localStorage.getItem("saturation");
+        let contrast = localStorage.getItem("contrast");
+        var saturation_output = document.getElementById("saturation");
+            saturation_output.innerHTML = `${saturation*10}%`;
+        var saturation_slider = document.getElementById("saturation_slider");
+            saturation_slider.value = saturation;
+            saturation_slider.addEventListener('input', function() {
+                if (Number(localStorage.getItem("master")) != 1) return;
+                saturation_output.innerHTML = `${saturation_slider.value*10}%`;
+                localStorage.setItem("saturation", saturation_slider.value);
+                setStyles();
+            });
+    
+        var contrast_output = document.getElementById("contrast");
+            contrast_output.innerHTML = `${contrast*10}%`; 
+        var contrast_slider = document.getElementById("contrast_slider");
+            contrast_slider.value = contrast;
+            contrast_slider.addEventListener('input', function() {
+                if (Number(localStorage.getItem("master")) != 1) return;
+                contrast_output.innerHTML = `${contrast_slider.value*10}%`;
+                localStorage.setItem("contrast", contrast_slider.value);
+                setStyles();
+            });
 
-    var contrast_output = document.getElementById("contrast");
-        contrast_output.innerHTML = `${contrast*10}%`; 
-    var contrast_slider = document.getElementById("contrast_slider");
-        contrast_slider.value = contrast;
-        contrast_slider.addEventListener('input', function() {
-            if (Number(localStorage.getItem("master")) != 1) return;
-            contrast_output.innerHTML = `${contrast_slider.value*10}%`;
-            localStorage.setItem("contrast", contrast_slider.value);
-            setStyles();
-        });
+    });
+
+    
+
+
 });
 
 
@@ -278,33 +332,4 @@ async function toggleMode(mode, val) {
 }
 
 // Add click listeners
-document.querySelectorAll(".switch-box").forEach((toggle, i) => {
-    toggle.addEventListener('click', async () => {
-        if ((Number(localStorage.getItem("master")) == "null" || Number(localStorage.getItem("master")) == null || Number(localStorage.getItem("master")) == 0) && (modes[i] != "master")) return;
-        await toggleMode(modes[i], !(body.classList.contains(modes[i])));
-        if (modes[i] == "colourblind" && Number(localStorage.getItem("colourblind")) != 1.0) {
-            await chrome.tabs.reload().then(async () => {
-                chrome.tabs.onUpdated.addListener(simulateReload);
 
-                async function simulateReload() {
-                    await initialize();
-                    chrome.tabs.onUpdated.removeEventListener(simulateReload);
-                }
-                
-            })
-            // document.dispatchEvent(new Event("DOMContentLoaded")); 
-            
-            // if (Number(localStorage.getItem("master")) != 1) document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = true; });
-            // else document.querySelectorAll(".slider-bar").forEach((slider) => { slider.disabled = false; });
-
-            // await initialize();
-            // for (let mode of modes) {
-            //     let setting = Number(localStorage.getItem(mode));
-            //     let val = (setting != null && setting != "null" && setting != "0" && setting != 0);
-            //     if (val) toggleMode(mode, true);
-            // }
-        }
-        await setStyles();
-        await setAltText();
-    });
-});
