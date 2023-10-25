@@ -30,7 +30,7 @@ Most crucially, we learned about colour theory, colour manipulation and colour b
 There are so many more features we want to add to WebStylus! More advanced accessibility features for the colourblind, special customizable text-to-speech, and more!
 
 ## Instructions for use
-1. Download the Chrome Extension [on the web store](https://chrome.google.com/webstore/detail/webstylus/bkofepamgipmidolgcfajlaclgnfmpij) or from [our website](https://webstylus.vercel.app/)!
+1. Download the Chrome Extension [on the web store](https://chrome.google.com/webstore/detail/webstylus/bkofepamgipmidolgcfajlaclgnfmpij) or [from our website](https://webstylus.vercel.app/)!
 2. Click the extension's icon to enable it on your current tab.
 3. Customize the page with WebStylus's sliders and toggles.
 4. Enjoy a more accessible browsing experience!
