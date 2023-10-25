@@ -27,16 +27,13 @@ We’re proud of our commitment to the project, our resilience when running into
 As coders, we added several new functions to our figurative toolkits. We used functions such as `getComputedStyle()` and `replace()` to take the places of functions that wouldn't function due to Google Chrome security policies.
 Most crucially, we learned about colour theory, colour manipulation and colour blindness. By working on an accessibility extension that focused on colours, we had to adapt and figure out how to manipulate colours to make web pages more customizable and readable for individual users.
 ## What's next for WebStylus
-There are so many more features we want to add to WebStylus! More advanced accessibility features for the colourblind, special customizable text-to-speech, and more! We plan on releasing this extension on the Chrome Web Store soon.
+There are so many more features we want to add to WebStylus! More advanced accessibility features for the colourblind, special customizable text-to-speech, and more!
 
-## [Current] Instructions for use
-1. Download the repository's code.
-2. Go to chrome://extensions/.
-3. Click "Load unpacked" (Note: Developer mode must be enabled - click the toggle in the top-right corner)
-4. Select the local folder containing the extension.
-5. Click the extension's icon to enable it on your current tab.
-6. Customize the page with WebStylus's sliders and toggles.
-7. Enjoy a more accessible browsing experience!
+## Instructions for use
+1. Download the Chrome Extension [on the web store](https://chrome.google.com/webstore/detail/webstylus/bkofepamgipmidolgcfajlaclgnfmpij) or from [our website](https://webstylus.vercel.app/)!
+2. Click the extension's icon to enable it on your current tab.
+3. Customize the page with WebStylus's sliders and toggles.
+4. Enjoy a more accessible browsing experience!
 
 ---
 Built by @mattshrew, @raydrost, and @derekgou.
